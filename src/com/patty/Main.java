@@ -5,11 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import com.oracle.javafx.jmx.json.JSONReader;
+import com.oracle.javafx.jmx.json.impl.JSONStreamReaderImpl;
+import netscape.javascript.JSObject;
+import org.json.*;
+
+
+
+
+
+
 public class Main {
 
     public static void main(String[] args) {
         try {
-            System.out.println(call("AAPL5"));
+            System.out.println(call("AAPL"));
 
         } catch (IOException e){
             e.printStackTrace();
@@ -34,17 +44,20 @@ public class Main {
             return "Symbol entered must be letters only, and between 3 and 5 characters inclusive";
         }
 
-        URL url = new URL("https://financialmodelingprep.com/api/v3/financials/income-statement/" + ticker + "?apikey=aa9b189f0b8c5b59b5802e95b9d1bcee");
-
+        URL url = new URL("https://financialmodelingprep.com/api/v3/financials/income-statement/"
+                               + ticker + "?apikey=aa9b189f0b8c5b59b5802e95b9d1bcee");
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
             for (String line; (line = reader.readLine()) != null;) {
-                System.out.println();
+                sb.append(line);
                 System.out.println(line);
-                System.out.println();
             }
         } catch (IOException e){
             e.printStackTrace();
         }
+        JsonObject object = Json.createObjectBuilder().build();
+
+
         return ticker;
     }
 }
