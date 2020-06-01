@@ -11,15 +11,13 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
 
-//        System.out.println("keyboard args: " + args[0]);
-
+        System.out.println("keyboard args: " + args[0]);
 
         try {
-            qCall("AAPL");
+            qCall(args[0]);
         } catch (IOException e){
             e.printStackTrace();
         }
-
 
     }
 
@@ -40,14 +38,13 @@ public class Main {
             e.printStackTrace();
         }
 
-        NumberFormat numberFormat = NumberFormat.getInstance();
-
         String json = sb.toString();
         Gson gson = new Gson();
         QRetriever retriever = gson.fromJson(json, QRetriever.class);
         System.out.println();
         System.out.println();
         System.out.println("************************************");
+        System.out.println("Getting Information for " + ticker);
         for(int i = 0; i < (retriever.size() - (retriever.size() - 8)); i++){
             System.out.println("Q-Date: " + retriever.get(i).get("date"));
             System.out.println("\tEPS: " + retriever.get(i).get("eps"));
