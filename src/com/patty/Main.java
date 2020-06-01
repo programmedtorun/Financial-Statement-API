@@ -1,19 +1,11 @@
 package com.patty;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-
-import com.oracle.javafx.jmx.json.JSONReader;
-import com.oracle.javafx.jmx.json.impl.JSONStreamReaderImpl;
-import netscape.javascript.JSObject;
-import org.json.*;
-
-
-
-
-
+import java.util.HashMap;
 
 public class Main {
 
@@ -26,17 +18,6 @@ public class Main {
 
         }
     }
-//    static String t(String ticker){
-//        ticker = ticker.toUpperCase();
-//        if(ticker.length() > 5 || ticker.length() < 3){
-//            return "Symbol entered must be between 3 and 5 characters inclusive";
-//        }
-//
-//        if(){
-//            return "Symbol must be alphabet characters";
-//        }
-//        return ticker;
-//    }
 
     static String call(String ticker) throws IOException {
         ticker = ticker.toUpperCase();
@@ -55,9 +36,16 @@ public class Main {
         } catch (IOException e){
             e.printStackTrace();
         }
-        JsonObject object = Json.createObjectBuilder().build();
+        String json = sb.toString();
+        Gson gson = new Gson();
+        Retriever retriever = gson.fromJson(json, Retriever.class);
+        System.out.println("SYMBOL IS......" + retriever.getSymbol());
+        System.out.println("financials are....");
+        for(HashMap<String, String> map : retriever.getFinancials()){
+            System.out.println("date is: " + map.get("date"));
+        }
 
-
-        return ticker;
+        return "blah";
+//        return ticker;
     }
 }
