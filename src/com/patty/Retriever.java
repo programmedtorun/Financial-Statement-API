@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Created by patrickskelley on Jun, 2020
  */
-public class YearRetriever {
+public class Retriever {
     private String symbol;
     private ArrayList<HashMap<String, String>> financials;
 
