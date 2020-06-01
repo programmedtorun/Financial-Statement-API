@@ -7,25 +7,30 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("keyboard args: " + args[0]);
 
-        try {
-            qCall(args[0]);
-        } catch (IOException e){
-            e.printStackTrace();
+        if (args.length == 0) {
+            System.err.println ("No ticker provided! Exiting program...");
+            System.exit(0);
+        } else {
+            try {
+                qCall(args[0]);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
-
     }
 
     // returns eps and revenue for most recent 8 quarters
     static void qCall(String ticker) throws IOException {
         ticker = ticker.toUpperCase();
         if(ticker.length() > 5 || ticker.length() < 3 || !ticker.matches("[A-Za-z]+")){
-            System.out.println("Symbol entered must be letters only, and between 3 and 5 characters inclusive");
+            System.err.println("TICKER symbol entered must be letters only, and between 3 and 5 characters inclusive");
+            System.exit(0);
         }
         URL url = new URL("https://financialmodelingprep.com/api/v3/income-statement/"
                 + ticker + "?period=quarter&apikey=aa9b189f0b8c5b59b5802e95b9d1bcee");
@@ -35,9 +40,11 @@ public class Main {
                 sb.append(line);
             }
         } catch (IOException e){
+            System.err.println("Error: Could not open API Stream...");
             e.printStackTrace();
+            System.exit(-1);
         }
-
+        // Searalization to POJO using GSON
         String json = sb.toString();
         Gson gson = new Gson();
         QRetriever retriever = gson.fromJson(json, QRetriever.class);
@@ -45,6 +52,8 @@ public class Main {
         System.out.println();
         System.out.println("************************************");
         System.out.println("Getting Information for " + ticker);
+
+        // Printing info needed
         for(int i = 0; i < (retriever.size() - (retriever.size() - 8)); i++){
             System.out.println("Q-Date: " + retriever.get(i).get("date"));
             System.out.println("\tEPS: " + retriever.get(i).get("eps"));
