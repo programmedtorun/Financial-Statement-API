@@ -12,7 +12,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-
         if (args.length == 0) {
             System.err.println ("No ticker provided! Exiting program...");
             System.exit(0);
