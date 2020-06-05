@@ -105,8 +105,8 @@ public class Main {
     // returns eps and revenue for most recent 8 quarters
     static QRetriever qCall(String ticker) throws IOException {
         ticker = ticker.toUpperCase();
-        if(ticker.length() > 5 || ticker.length() < 3 || !ticker.matches("[A-Za-z]+")){
-            System.err.println("TICKER symbol entered must be letters only, and between 3 and 5 characters inclusive");
+        if(ticker.length() > 5 || !ticker.matches("[A-Za-z]+")){
+            System.err.println("TICKER symbol entered must be letters only, and less than 5 characters inclusive");
             System.exit(0);
         }
         URL url = new URL("https://financialmodelingprep.com/api/v3/income-statement/"
