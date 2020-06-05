@@ -45,6 +45,7 @@ public class Main {
         if (retriever.size() >= 8){
             rSize = retriever.size() - (retriever.size() - 8);
         }
+        // logic to stop % different calculation if there is no data 4 quarters prior
         int sizeDiff = retriever.size();
        if(sizeDiff <= 12 ){
             sizeDiff = retriever.size() - 4;
@@ -97,10 +98,7 @@ public class Main {
             if(!revDiff.equals("no data")){
                 revDiff = "%" + revDiff;
             }
-            System.out.println("sizeDiff is: " + sizeDiff);
             System.out.println("\t" + date + "\t\t\t" + epsCurr + "\t\t\t" + ANSI_RED_EPS + epsDiff + ANSI_RESET + "\t\t\t\t" + revCurr + "\t\t\t\t" + ANSI_RED_REV + revDiff  +ANSI_RESET);
-//            System.out.printf(format, date, epsCurr, ANSI_RED_EPS + epsDiff + ANSI_RESET, revCurr, ANSI_RED_REV + revDiff  +ANSI_RESET);
-
         }
     }
 
