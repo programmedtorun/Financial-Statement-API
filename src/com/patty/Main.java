@@ -98,6 +98,7 @@ public class Main {
             if(!revDiff.equals("no data")){
                 revDiff = "%" + revDiff;
             }
+            if(epsCurr.length() == 3){ epsCurr = epsCurr + " "; }
             System.out.println("\t" + date + "\t\t\t" + epsCurr + "\t\t\t" + ANSI_RED_EPS + epsDiff + ANSI_RESET + "\t\t\t\t" + revCurr + "\t\t\t\t" + ANSI_RED_REV + revDiff  +ANSI_RESET);
         }
     }
