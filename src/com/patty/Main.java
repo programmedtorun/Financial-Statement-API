@@ -14,19 +14,17 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-//        if (args.length == 0) {
-//            System.err.println ("No ticker provided! Exiting program...");
-//            System.exit(0);
-//        } else {
+        if (args.length != 1) {
+            System.err.println ("Exactly one ticker must be provided! Exiting program...");
+            System.exit(0);
+        } else {
             try {
-                QRetriever retriever = qCall("GOOG");
-                printQData(retriever, "GOOG");
-            } catch (IOException e){
+                QRetriever retriever = qCall(args[0]);
+                printQData(retriever, args[0]);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-//        }
-//        System.out.print("some initial stuff");
-//        System.out.println("beginning part should NOT have red...."+ ANSI_RED + "text has Red background" + ANSI_RESET + "some more stuff");
+        }
     }
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
@@ -37,8 +35,6 @@ public class Main {
     }
 
     static void printQData(QRetriever retriever, String ticker){
-        System.out.println();
-        System.out.println();
 
         // If more than 8 quarters will change iterable to 8
         int rSize = retriever.size();
@@ -47,9 +43,12 @@ public class Main {
         }
         // logic to stop % different calculation if there is no data 4 quarters prior
         int sizeDiff = retriever.size();
-       if(sizeDiff <= 12 ){
+        if(sizeDiff <= 12 ){
             sizeDiff = retriever.size() - 4;
         }
+        // Printing header
+        System.out.println();
+        System.out.println();
         System.out.println("*******************************************************************************************************");
         System.out.println("Getting Information for " + ticker);
         System.out.println();
@@ -69,7 +68,6 @@ public class Main {
             String ANSI_RED_EPS = "";
             String ANSI_RED_REV = "";
             String ANSI_RESET = "\u001B[0m";
-
 
             if(sizeDiff >= 1){
                 String epsLast = retriever.get(i + 4).get("eps");
@@ -92,14 +90,15 @@ public class Main {
                 revDiff = Double.toString(revDRnd);
             }
             sizeDiff--;
-            if(!epsDiff.equals("no data")){
-                epsDiff = "%" + epsDiff;
-            }
-            if(!revDiff.equals("no data")){
-                revDiff = "%" + revDiff;
-            }
+            if(!epsDiff.equals("no data")){ epsDiff = "%" + epsDiff; }
+            if(!revDiff.equals("no data")){ revDiff = "%" + revDiff; }
             if(epsCurr.length() == 3){ epsCurr = epsCurr + " "; }
-            System.out.println("\t" + date + "\t\t\t" + epsCurr + "\t\t\t" + ANSI_RED_EPS + epsDiff + ANSI_RESET + "\t\t\t\t" + revCurr + "\t\t\t\t" + ANSI_RED_REV + revDiff  +ANSI_RESET);
+            System.out.println("\t" + date + "\t\t\t" +
+                                      epsCurr + "\t\t\t" +
+                                      ANSI_RED_EPS + epsDiff + ANSI_RESET + "\t\t\t\t" +
+                                      revCurr + "\t\t\t\t" +
+                                      ANSI_RED_REV + revDiff  +ANSI_RESET
+            );
         }
     }
 
@@ -125,8 +124,7 @@ public class Main {
         // Searalization to POJO using GSON
         String json = sb.toString();
         Gson gson = new Gson();
-        QRetriever retriever = gson.fromJson(json, QRetriever.class);
-        return retriever;
+        return gson.fromJson(json, QRetriever.class);
     }
 
     // yearly call code (currently not in use)
