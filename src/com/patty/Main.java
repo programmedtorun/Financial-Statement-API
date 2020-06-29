@@ -135,9 +135,10 @@ public class Main {
         if(ticker.length() > 5 || ticker.length() < 3 || !ticker.matches("[A-Za-z]+")){
             return "Symbol entered must be letters only, and between 3 and 5 characters inclusive";
         }
-
+        APIKEY APIkey = new APIKEY();
+        String key = APIkey.getMainKey();
         URL url = new URL("https://financialmodelingprep.com/api/v3/financials/income-statement/"
-                + ticker + "?apikey=aa9b189f0b8c5b59b5802e95b9d1bcee");
+                + ticker + "?apikey=" + key);
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
             for (String line; (line = reader.readLine()) != null;) {
